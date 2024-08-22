@@ -15,7 +15,7 @@ def qa_agent(openai_api_key, memory, uploaded_file, question):
     docs = loader.load()
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000,chunk_overlap=50,separators=["\n", "。", "！", "？", "，", "、", ""])
     texts = text_splitter.split_documents(docs)
-    embeddings_model = OpenAIEmbeddings(base_url="https://api.aigc369.com/v1")
+    embeddings_model = OpenAIEmbeddings(openai_api_key=openai_api_key,base_url="https://api.aigc369.com/v1")
     db = FAISS.from_documents(texts, embeddings_model)
     retriever = db.as_retriever()
     qa = ConversationalRetrievalChain.from_llm(llm=model,retriever=retriever,memory=memory)
